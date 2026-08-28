@@ -1,0 +1,7 @@
+# Core template has zero hard dependencies beyond the standard library.
+# Uncomment once you wire in RealFoundryClient:
+# azure-ai-projects>=2.1.0
+# azure-identity>=1.17.0
+
+# Dev/test
+pytest>=8.0.0
