@@ -6,6 +6,7 @@ workflows need this: a single check rarely captures "did a good job".
 
 from __future__ import annotations
 
+import math
 from typing import Callable, Optional
 
 RubricFn = Callable[[list], Optional[float]]
@@ -40,6 +41,13 @@ class CompositeRubric:
                 if self.require_all:
                     return None
                 continue
+            if (
+                not isinstance(score, (int, float))
+                or isinstance(score, bool)
+                or not math.isfinite(score)
+                or not 0.0 <= score <= 1.0
+            ):
+                raise ValueError("Rubric scores must be finite numbers between 0.0 and 1.0.")
             scored.append((score, weight))
 
         if not scored:

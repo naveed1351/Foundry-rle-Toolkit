@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import dataclasses
 import json
+import math
 import statistics
 from pathlib import Path
 from typing import Any, Optional
@@ -23,6 +24,17 @@ class EvalRecord:
     breakdown: dict
     trace_id: Optional[str] = None
     metadata: dict = dataclasses.field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        if self.score is None:
+            return
+        if (
+            not isinstance(self.score, (int, float))
+            or isinstance(self.score, bool)
+            or not math.isfinite(self.score)
+            or not 0.0 <= self.score <= 1.0
+        ):
+            raise ValueError("score must be a finite number between 0.0 and 1.0, or None.")
 
     def to_json(self) -> str:
         return json.dumps(dataclasses.asdict(self))

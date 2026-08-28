@@ -57,6 +57,11 @@ def embedding_similarity(reference: str, embed_fn, threshold: float = 0.8):
     reference_vec = embed_fn(reference)
 
     def cosine(a: list[float], b: list[float]) -> float:
+        if len(a) != len(b):
+            raise ValueError(
+                "Embedding vectors must have the same dimension; "
+                f"got {len(a)} and {len(b)}."
+            )
         dot = sum(x * y for x, y in zip(a, b))
         norm_a = math.sqrt(sum(x * x for x in a))
         norm_b = math.sqrt(sum(y * y for y in b))
@@ -69,7 +74,7 @@ def embedding_similarity(reference: str, embed_fn, threshold: float = 0.8):
         if final is None:
             return None
         final_vec = embed_fn(final)
-        sim = cosine(final_vec, reference_vec)
+        sim = max(0.0, min(1.0, cosine(final_vec, reference_vec)))
         return sim if sim >= threshold else sim * 0.7
 
     return rubric
