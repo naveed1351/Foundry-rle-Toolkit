@@ -1,0 +1,2 @@
+# No hard dependencies beyond the standard library and the rle-template/
+# and rubric-cookbook/ modules (imported via sys.path in collect.py).
