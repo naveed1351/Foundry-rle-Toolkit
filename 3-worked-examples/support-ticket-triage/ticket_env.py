@@ -57,5 +57,6 @@ class TicketTriageEnv(FoundryAgentEnv):
             has_disposition = content.get("disposition") in {"resolved", "escalated"}
             if has_category and has_priority and has_disposition:
                 result.done = True
+                self._done = True
 
         return result

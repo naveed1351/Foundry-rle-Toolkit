@@ -54,9 +54,11 @@ class StubFoundryClient:
         session = self._sessions[session_id]
         session["turns"] += 1
         content = action.get("content", "")
+        terminal = session["turns"] >= self.terminal_after
         return {
             "content": f"stub response to: {content!r}",
-            "terminal": session["turns"] >= self.terminal_after,
+            "terminal": terminal,
+            "status": "completed" if terminal else "in_progress",
         }
 
     def get_trace_id(self, session_id: str) -> Optional[str]:
