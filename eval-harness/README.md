@@ -14,7 +14,7 @@ Without this piece, your rubric only ever sees one transcript at a time inside a
 
 ```bash
 # 1. Run a batch of episodes and score them
-python collect.py --episodes 50 --rubric ../3-worked-examples/support-ticket-triage/rubric.py --out runs/2026-08-28.jsonl
+python collect.py --episodes 50 --out runs/2026-08-28.jsonl
 
 # 2. Look at the results
 python report.py runs/2026-08-28.jsonl
@@ -22,6 +22,10 @@ python report.py runs/2026-08-28.jsonl
 # 3. After an Agent Optimizer run, compare before/after
 python report.py runs/2026-08-28.jsonl --compare runs/2026-08-29-post-optimize.jsonl
 ```
+
+`collect.py` uses a self-contained stub client and demonstration rubric so
+the command runs without Foundry credentials. Adapt `run_episode()` to wire
+in the task-specific client, task source, and rubric for your workflow.
 
 ## Why local JSONL first
 
